@@ -1,0 +1,5 @@
+file_create
+file_read
+network_c2_beacon
+persistence_attempt
+process_info

@@ -1,0 +1,20 @@
+{"action": "network_c2_beacon", "dst_ip": "198.51.100.242", "port": 443, "timestamp": "2025-10-15T23:13:52.583046"}
+{"action": "network_c2_beacon", "dst_ip": "198.51.100.193", "port": 443, "timestamp": "2025-10-15T23:13:53.670677"}
+{"action": "network_c2_beacon", "dst_ip": "198.51.100.30", "port": 443, "timestamp": "2025-10-15T23:13:55.014908"}
+{"action": "network_c2_beacon", "dst_ip": "198.51.100.173", "port": 443, "timestamp": "2025-10-15T23:13:56.343395"}
+{"action": "file_create", "path": "/tmp/sim_lab/suspicious_file_579.txt", "timestamp": "2025-10-15T23:13:57.146991"}
+{"action": "network_c2_beacon", "dst_ip": "198.51.100.183", "port": 443, "timestamp": "2025-10-15T23:13:58.730317"}
+{"action": "persistence_attempt", "technique": "bashrc", "command": "echo 'run_evil.sh' >> ~/.bashrc", "timestamp": "2025-10-15T23:13:59.961693"}
+{"action": "persistence_attempt", "technique": "bashrc", "command": "echo 'run_evil.sh' >> ~/.bashrc", "timestamp": "2025-10-15T23:14:00.799489"}
+{"action": "network_c2_beacon", "dst_ip": "198.51.100.167", "port": 443, "timestamp": "2025-10-15T23:14:01.786684"}
+{"action": "persistence_attempt", "technique": "bashrc", "command": "echo 'run_evil.sh' >> ~/.bashrc", "timestamp": "2025-10-15T23:14:03.000680"}
+{"action": "file_create", "path": "/tmp/sim_lab/suspicious_file_688.txt", "timestamp": "2025-10-15T23:33:34.465705"}
+{"action": "file_create", "path": "/tmp/sim_lab/suspicious_file_487.txt", "timestamp": "2025-10-15T23:33:36.335850"}
+{"action": "persistence_attempt", "technique": "bashrc", "command": "echo 'run_evil.sh' >> ~/.bashrc", "timestamp": "2025-10-15T23:33:38.032342"}
+{"action": "file_create", "path": "/tmp/sim_lab/suspicious_file_761.txt", "timestamp": "2025-10-15T23:33:38.840552"}
+{"action": "network_c2_beacon", "dst_ip": "198.51.100.50", "port": 443, "timestamp": "2025-10-15T23:33:39.644237"}
+{"action": "persistence_attempt", "technique": "bashrc", "command": "echo 'run_evil.sh' >> ~/.bashrc", "timestamp": "2025-10-15T23:33:40.629651"}
+{"action": "file_create", "path": "/tmp/sim_lab/suspicious_file_991.txt", "timestamp": "2025-10-15T23:33:41.416537"}
+{"action": "file_create", "path": "/tmp/sim_lab/suspicious_file_704.txt", "timestamp": "2025-10-15T23:33:41.958722"}
+{"action": "file_create", "path": "/tmp/sim_lab/suspicious_file_842.txt", "timestamp": "2025-10-15T23:33:42.579109"}
+{"action": "network_c2_beacon", "dst_ip": "198.51.100.189", "port": 443, "timestamp": "2025-10-15T23:33:44.222103"}

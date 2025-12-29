@@ -1,0 +1,6 @@
+<Sysmon schemaversion="4.81">
+  <EventFiltering>
+    <ProcessCreate onmatch="include" />
+    <FileCreate onmatch="include" />
+  </EventFiltering>
+</Sysmon>

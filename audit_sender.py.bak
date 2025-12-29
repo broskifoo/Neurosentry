@@ -1,0 +1,127 @@
+#!/usr/bin/env python3
+"""
+[Audit Sender] - v3 (No Auth Key)
+
+This script reads Linux audit logs (via ausearch or /var/log/audit/audit.log),
+parses key event fields, and sends them to a remote collector over TCP in JSONL format.
+
+Usage Example:
+  sudo python3 audit_sender.py --host 127.0.0.1 --port 9999 --echo
+"""
+
+import socket
+import json
+import time
+import argparse
+import subprocess
+import re
+import sys
+
+# ---------------------------------------------------
+# Utility: extract useful info from raw audit log line
+# ---------------------------------------------------
+def parse_audit_line(line):
+    """
+    Parse minimal fields from an auditd log line.
+    """
+    try:
+        evt = {}
+
+        # Parse action types
+        if "type=SYSCALL" in line:
+            evt["action"] = "process_exec"
+        elif "type=EXECVE" in line:
+            evt["action"] = "process_exec"
+        elif "type=PATH" in line and "O_CREAT" in line:
+            evt["action"] = "file_create"
+        else:
+            evt["action"] = "other"
+
+        # Extract UID, PID, EXE, PATH, CMD, timestamp
+        uid = re.search(r"uid=(\d+)", line)
+        pid = re.search(r"pid=(\d+)", line)
+        exe = re.search(r"exe=\"([^\"]+)\"", line)
+        path = re.search(r"name=\"([^\"]+)\"", line)
+        ts = re.search(r"msg=audit\(([\d\.]+):", line)
+
+        evt["uid"] = int(uid.group(1)) if uid else None
+        evt["pid"] = int(pid.group(1)) if pid else None
+        evt["exe"] = exe.group(1) if exe else None
+        evt["path"] = path.group(1) if path else None
+        evt["timestamp_audit"] = float(ts.group(1)) if ts else time.time()
+        evt["source"] = "auditd"
+
+        return evt
+
+    except Exception as e:
+        return {"action": "parse_error", "error": str(e)}
+
+
+# ---------------------------------------------------
+# Main sender loop
+# ---------------------------------------------------
+def send_to_collector(args):
+    """
+    Continuously read audit events and forward to collector.
+    """
+    while True:
+        try:
+            print(f"[audit_sender] Connecting to {args.host}:{args.port} ...")
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.connect((args.host, args.port))
+            print("[audit_sender] Connected!")
+
+            # Use ausearch to stream recent audit logs
+            proc = subprocess.Popen(
+                ["ausearch", "-m", "SYSCALL,EXECVE,PATH", "--format", "text", "--input-logs"],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.DEVNULL,
+                text=True,
+                bufsize=1
+            )
+
+            for line in proc.stdout:
+                line = line.strip()
+                if not line:
+                    continue
+
+                evt = parse_audit_line(line)
+                data = json.dumps(evt) + "\n"
+                sock.sendall(data.encode())
+
+                if args.echo:
+                    print("[evt]", data.strip())
+
+            proc.wait()
+
+        except ConnectionRefusedError:
+            print(f"[audit_sender] Connection refused. Retrying in 10s...")
+            time.sleep(10)
+        except (OSError, socket.error) as e:
+            print(f"[audit_sender] Socket error: {e}. Retrying in 10s...")
+            time.sleep(10)
+        except KeyboardInterrupt:
+            print("\n[audit_sender] Stopped by user.")
+            sys.exit(0)
+        finally:
+            try:
+                sock.close()
+            except:
+                pass
+
+
+# ---------------------------------------------------
+# CLI
+# ---------------------------------------------------
+def main():
+    parser = argparse.ArgumentParser(description="Audit event sender (no-auth)")
+    parser.add_argument("--host", type=str, default="127.0.0.1", help="Collector host")
+    parser.add_argument("--port", type=int, default=9999, help="Collector port")
+    parser.add_argument("--echo", action="store_true", help="Print sent events")
+    args = parser.parse_args()
+
+    send_to_collector(args)
+
+
+if __name__ == "__main__":
+    main()

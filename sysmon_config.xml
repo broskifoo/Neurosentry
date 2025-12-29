@@ -1,0 +1,13 @@
+<Sysmon schemaversion="4.81">
+  <FieldSizes>
+    CommandLine:512,
+    Image:256,
+    CurrentDirectory:256
+  </FieldSizes>
+
+  <EventFiltering>
+    <!-- Exclude nothing ⇒ log everything -->
+    <ProcessCreate onmatch="exclude" />
+    <FileCreate   onmatch="exclude" />
+  </EventFiltering>
+</Sysmon>
