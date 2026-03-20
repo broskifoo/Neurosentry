@@ -1,6 +1,7 @@
 # Neurosentry
 
 Neurosentry is a real-time malware detection and threat intelligence system that leverages machine learning and artificial intelligence to monitor, analyze, and explain system-level threats. It provides a comprehensive suite of tools for log ingestion, automated analysis, and visual monitoring.
+![neuro](https://github.com/user-attachments/assets/21505ea1-81e1-4fd8-9faf-ba2a48351e3a)
 
 ## Core Components
 
@@ -18,13 +19,7 @@ The backend serves as the brain of the system, providing REST API endpoints for 
 - **AI Explainer**: Integrates with large language models to provide detailed explanations of cybersecurity terms and identified threats.
 - **Extensible API**: Offers endpoints for both automated system scans and interactive terminology explanations.
 
-### 3. SOC Dashboard (Streamlit)
-A professional Security Operations Center (SOC) interface for real-time monitoring.
-- **Visual Analytics**: Displays live threat feeds, detection rates, and historical scan data.
-- **Hacker-Centric Design**: Includes a theme-consistent interface with dynamic visualizations and a terminal-style status feed.
-- **Threat Deep-Dives**: Provides detailed breakdowns of detected events, including severity levels and confidence scores.
-
-### 4. React Frontend (NeuroSentry-UI)
+### 3. React Frontend (NeuroSentry-UI)
 A modern web dashboard built with React and Vite for advanced data visualization.
 - **Live Threats**: Interactive view of ongoing system events and alerts.
 - **Historical Analysis**: Broad access to past scan logs and detection statistics.
